@@ -17,9 +17,9 @@ const createWindow = (): void => {
     backgroundColor: '#242424',
     show: false,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       enableRemoteModule: false,
-      contextIsolation: true,
+      contextIsolation: false,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,

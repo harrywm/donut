@@ -1,61 +1,49 @@
-import logo from '@static/logo.png';
-import React from 'react';
-import { hot } from 'react-hot-loader';
+import { Layout, Menu } from 'antd';
+import React, { useEffect } from 'react';
+import 'antd/dist/antd.css'
+import Canvas from './docker/canvas';
+import { Content, Header } from 'antd/lib/layout/layout';
+import { BlockOutlined, ContainerOutlined } from '@ant-design/icons'
+import { hot } from 'react-hot-loader'
 
-interface AppProps {
-  title?: string;
-}
+const { Sider } = Layout
 
-interface AppState {
-  counter: number;
-}
+const App = () => {
+  return (
+    <div className='App'>
+      <Header> 
+        <h2 style={{ color: 'white'}}>Containers</h2>
+      </Header>
 
-class App extends React.Component<AppProps, AppState> {
-  readonly state: AppState = { counter: 0 };
+      <Layout>
 
-  render(): JSX.Element {
-    return (
-      <div className='container'>
-        <h2 className='heading'>
-          <img src={logo} width='32' title='Codesbiome' /> &nbsp; Electron React
-          Webpack Typescript
-        </h2>
-
-        <p className='teaser'>
-          Minimal boilerplate for writing Desktop Applications using Electron,
-          React, Webpack & TypeScript. This project makes use of latest packages
-          like electron, react, typescript & webpack to serve the best
-          environment for development.
-        </p>
-        <p className='versions'>
-          <span className='version teaser'>
-            Electron <span id='electron-version'></span>
-          </span>
-          &nbsp;&nbsp;
-          <span className='version teaser'>
-            Chrome <span id='chrome-version'></span>
-          </span>
-          &nbsp;&nbsp;
-          <span className='version teaser'>
-            Node <span id='node-version'></span>
-          </span>
-        </p>
-        <p>
-          Click below button to update the state (counter) using 🔥
-          react-hot-loader (HMR). Component will not lose their state when
-          modifying their source code.
-          <br />
-        </p>
-        <button
-          onClick={(): void =>
-            this.setState({ counter: this.state.counter + 1 })
-          }
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+          onBreakpoint={broken => { console.log(broken) }}
+          onCollapse={(collapsed, type) => { console.log(collapsed, type) }}
         >
-          Counter &nbsp; <span>{this.state.counter}</span>
-        </button>
-      </div>
-    );
-  }
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+            <Menu.Item key="1">
+              <BlockOutlined />
+              Images
+        </Menu.Item>
+            <Menu.Item key="2">
+              <ContainerOutlined />
+              Containers
+        </Menu.Item>
+          </Menu>
+        </Sider>
+
+        <Content>
+        <div className="Canvas">
+          <Canvas />
+        </div>
+        </Content>
+
+      </Layout>
+    </div>
+  );
 }
 
 export default hot(module)(App);
