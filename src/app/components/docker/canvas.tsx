@@ -1,26 +1,42 @@
 import React from 'react';
 import { Space } from 'antd'
 import DContainer from './container'
-import { DockerContext, getContainers } from '../../context/setup'
+import { getContainers } from '../../context/setup'
 import { ContainerInfo } from 'dockerode'
 
+interface props {
 
-export default function Canvas() {
+}
+interface state {
+    data: ContainerInfo[];
+}
 
-    let context: DockerContext = { Containers: [], Networks: [], Images: [] }
-    getContainers(context)
-    let containers: ContainerInfo[] = context.Containers
+export default class Canvas extends React.Component<props, state> {
 
-    return (
-        <Space direction='vertical'>
-            {console.log('Inside the Canvas', context.Containers)}
-            {  
-                containers.map(c => 
-                    {console.log('in the map', c)}
-                    //<DContainer container={c} />
-                    
-                )
-            }
-        </Space>
-    )
+    componentWillMount() {
+        this.fillContainers()
+    }
+
+    fillContainers = () => {
+        const c = getContainers()
+        this.setState({ ...this.state, data: c })
+    }
+
+    render() {
+        const containers = this.state.data
+        
+        console.log(containers)
+        return (
+            <Space direction='vertical' >
+                <div>
+                    {console.log('Inside the Canvas', containers)}
+                    {
+                        containers.map(c =>
+                            <DContainer container={c} />
+                        )
+                    }
+                </div>
+            </Space>
+        )
+    }
 }

@@ -1,5 +1,5 @@
 import { Layout, Menu } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
 import 'antd/dist/antd.css'
 import Canvas from './docker/canvas';
 import { Content, Header } from 'antd/lib/layout/layout';

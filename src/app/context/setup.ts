@@ -1,4 +1,4 @@
-import Dockerode from 'dockerode';
+import Dockerode, { ContainerInfo } from 'dockerode';
 
 let dockerode = new Dockerode()
 
@@ -8,12 +8,15 @@ export interface DockerContext {
     Images: Dockerode.ImageInfo[];
 }
 
-export function getContainers(ctx: DockerContext) {
-    dockerode.listContainers(function (err: Error, containers) {
-        containers?.forEach(container => {
-            ctx.Containers.push(container)
+export function getContainers(): ContainerInfo[] {
+    let containers: ContainerInfo[] = []
+    dockerode.listContainers(function (err: Error, c) {
+        c?.forEach(container => {
+            containers.push(container)
         });
     })
+
+    return containers;
 }
 
 export function getNetworks(ctx: DockerContext){dockerode.listNetworks(function (err: Error, networks) {
