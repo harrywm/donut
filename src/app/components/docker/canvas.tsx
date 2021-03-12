@@ -1,42 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Space } from 'antd'
 import DContainer from './container'
 import { getContainers } from '../../context/setup'
 import { ContainerInfo } from 'dockerode'
+import { render } from 'react-dom';
 
-interface props {
+export default function Canvas() {
 
-}
-interface state {
-    data: ContainerInfo[];
-}
+    const [dData, setdData] = useState<ContainerInfo[]>([])
 
-export default class Canvas extends React.Component<props, state> {
+    useEffect(() => {
+        getContainers().then(conts => setdData(conts))
+        console.log(dData)
+    }, [])
 
-    componentWillMount() {
-        this.fillContainers()
-    }
+    return (
+        <Space direction='vertical' >
+            <div>
+                {
+                    dData.map((c: ContainerInfo) => (
+                        <DContainer container={c} />)
+                    )
+                }
+            </div>
+        </Space>
+    )
 
-    fillContainers = () => {
-        const c = getContainers()
-        this.setState({ ...this.state, data: c })
-    }
-
-    render() {
-        const containers = this.state.data
-        
-        console.log(containers)
-        return (
-            <Space direction='vertical' >
-                <div>
-                    {console.log('Inside the Canvas', containers)}
-                    {
-                        containers.map(c =>
-                            <DContainer container={c} />
-                        )
-                    }
-                </div>
-            </Space>
-        )
-    }
 }

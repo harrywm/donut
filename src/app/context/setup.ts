@@ -8,26 +8,31 @@ export interface DockerContext {
     Images: Dockerode.ImageInfo[];
 }
 
-export function getContainers(): ContainerInfo[] {
-    let containers: ContainerInfo[] = []
-    dockerode.listContainers(function (err: Error, c) {
-        c?.forEach(container => {
-            containers.push(container)
-        });
-    })
-
-    return containers;
+export const getContainers = async (): Promise<ContainerInfo[]> => {
+    return new Promise<ContainerInfo[]>((resolve) => {
+        let containers: ContainerInfo[] = []
+        dockerode.listContainers(function (err: Error, c) {
+            c?.forEach(container => {
+                containers.push(container)
+            });
+        })
+        console.log(containers)
+        resolve(containers)
+    });
 }
 
-export function getNetworks(ctx: DockerContext){dockerode.listNetworks(function (err: Error, networks) {
-    networks?.forEach(network => {
-        ctx.Networks.push(network)
+export function getNetworks(ctx: DockerContext) {
+    dockerode.listNetworks(function (err: Error, networks) {
+        networks?.forEach(network => {
+            ctx.Networks.push(network)
+        })
     })
-})}
+}
 
-export function getImages(ctx: DockerContext){dockerode.listImages(function (err: Error, images) {
-    images?.forEach(image => {
-        ctx.Images.push(image)
+export function getImages(ctx: DockerContext) {
+    dockerode.listImages(function (err: Error, images) {
+        images?.forEach(image => {
+            ctx.Images.push(image)
+        })
     })
-})
 }

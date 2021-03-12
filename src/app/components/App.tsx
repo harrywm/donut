@@ -8,6 +8,11 @@ import { hot } from 'react-hot-loader'
 
 const { Sider } = Layout
 
+enum Labels {
+  CONTAINERS = 'Containers',
+  NETWORKS = 'Networks'
+}
+
 const App = () => {
   return (
     <div className='App'>
@@ -23,14 +28,14 @@ const App = () => {
           onBreakpoint={broken => { console.log(broken) }}
           onCollapse={(collapsed, type) => { console.log(collapsed, type) }}
         >
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+          <Menu theme="light" mode="inline" defaultSelectedKeys={['4']}>
             <Menu.Item key="1">
               <BlockOutlined />
-              Images
+              {Labels.CONTAINERS}
         </Menu.Item>
             <Menu.Item key="2">
               <ContainerOutlined />
-              Containers
+              {Labels.NETWORKS}
         </Menu.Item>
           </Menu>
         </Sider>
