@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { } from 'react';
 import { Space } from 'antd'
 import DContainer from './container'
-import { getContainers } from '../../context/setup'
 import { ContainerInfo } from 'dockerode'
-import { render } from 'react-dom';
+import { LoadingOutlined } from '@ant-design/icons';
 
-export default function Canvas() {
+interface props {
+    objectList: ContainerInfo[]
+}
 
-    const [dData, setdData] = useState<ContainerInfo[]>([])
+interface state {}
+export default class Canvas extends React.Component <props, state>{
 
-    useEffect(() => {
-        getContainers().then(conts => setdData(conts))
-        console.log(dData)
-    }, [])
+    constructor(props: props | Readonly<props>) {
+        super(props)
+    }
 
-    return (
-        <Space direction='vertical' >
-            <div>
-                {
-                    dData.map((c: ContainerInfo) => (
-                        <DContainer container={c} />)
-                    )
-                }
-            </div>
-        </Space>
-    )
+    render() {
+        return (
+            <Space direction='vertical' >
+                <div>
+                    <DContainer container={this.props.objectList[0]} />
+                </div>
+            </Space>
+        )
+    }
 
 }

@@ -7,7 +7,7 @@ export interface DockerContext {
     Networks: Dockerode.NetworkInspectInfo[];
     Images: Dockerode.ImageInfo[];
 }
-
+/* 
 export const getContainers = async (): Promise<ContainerInfo[]> => {
     return new Promise<ContainerInfo[]>((resolve) => {
         let containers: ContainerInfo[] = []
@@ -19,6 +19,19 @@ export const getContainers = async (): Promise<ContainerInfo[]> => {
         console.log(containers)
         resolve(containers)
     });
+} */
+
+export function getContainers(): ContainerInfo[]{
+    
+        let containers: ContainerInfo[] = []
+        dockerode.listContainers(function (err: Error, c) {
+            c?.forEach(container => {
+                containers.push(container)
+            });
+        })
+        console.log(containers)
+        return containers
+
 }
 
 export function getNetworks(ctx: DockerContext) {

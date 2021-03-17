@@ -1,10 +1,12 @@
 import { Layout, Menu } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css'
 import Canvas from './docker/canvas';
 import { Content, Header } from 'antd/lib/layout/layout';
 import { BlockOutlined, ContainerOutlined } from '@ant-design/icons'
 import { hot } from 'react-hot-loader'
+import { ContainerInfo, NetworkInfo } from 'dockerode';
+import { getContainers } from '@app/context/setup';
 
 const { Sider } = Layout
 
@@ -14,6 +16,20 @@ enum Labels {
 }
 
 const App = () => {
+
+  const [containers, setContainers] = useState<ContainerInfo[]>([]) 
+  const [networks, setNetworks] = useState<NetworkInfo[]>([])
+
+  useEffect(() => {
+    function handleContainerChange(conts: ContainerInfo[]){
+      setContainers(conts)
+    }
+
+    handleContainerChange(getContainers())
+  }, [])
+
+  console.log(containers)
+  
   return (
     <div className='App'>
       <Header> 
@@ -42,7 +58,7 @@ const App = () => {
 
         <Content>
         <div className="Canvas">
-          <Canvas />
+          <Canvas objectList = {containers} />
         </div>
         </Content>
 
